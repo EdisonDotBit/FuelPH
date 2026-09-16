@@ -1,7 +1,11 @@
+using FuelPH.Services;
+using FuelPH.Services.IServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IFuelPriceService, FuelPriceService>();
 
 var app = builder.Build();
 
