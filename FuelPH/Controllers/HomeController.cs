@@ -1,3 +1,4 @@
+using FuelPH.DTOs;
 using FuelPH.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -8,7 +9,12 @@ namespace FuelPH.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var price = new FuelPriceDto
+            {
+                FuelType = "Diesel",
+                PricePerLiter = 2.50m
+            };
+            return View(price);
         }
 
         public IActionResult Privacy()
