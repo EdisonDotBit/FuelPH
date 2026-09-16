@@ -1,5 +1,5 @@
-using FuelPH.DTOs;
 using FuelPH.Models;
+using FuelPH.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,13 +7,16 @@ namespace FuelPH.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly FuelPriceService _fuelPriceService;
+
+        public HomeController(FuelPriceService fuelPriceService)
+        {
+            _fuelPriceService = fuelPriceService;
+        }
+
         public IActionResult Index()
         {
-            var price = new FuelPriceDto
-            {
-                FuelType = "Diesel",
-                PricePerLiter = 2.50m
-            };
+            var price = _fuelPriceService.GetDieselPrice();
             return View(price);
         }
 
