@@ -14,9 +14,9 @@ namespace FuelPH.Controllers
             _fuelPriceService = fuelPriceService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var price = await _fuelPriceService.GetDieselPrice();
+            var price = _fuelPriceService.GetDieselPrice();
             return View(price);
         }
 
