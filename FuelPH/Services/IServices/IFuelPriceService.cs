@@ -4,6 +4,6 @@ namespace FuelPH.Services.IServices
 {
     public interface IFuelPriceService
     {
-        FuelPriceDto GetDieselPrice();
+        Task<FuelPriceDto> GetDieselPrice();
     }
 }
