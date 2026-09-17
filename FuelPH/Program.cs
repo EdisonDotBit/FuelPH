@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<IFuelPriceService, FuelPriceService>(client =>
 {
-    client.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/"); // Replace with the actual API base URL
+    client.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/"); // Replace with the actual API base URL later
 });
 
 var app = builder.Build();
