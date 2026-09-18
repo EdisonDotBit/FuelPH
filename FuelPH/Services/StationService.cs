@@ -17,8 +17,36 @@ namespace FuelPH.Services
 
         public async Task<IReadOnlyList<StationDto>> GetStationsAsync()
         {
-            // We'll put the Overpass request here next.
-            return [];
+            var query = """
+            [out:json];
+            node["amenity"="fuel"](14.4,120.9,14.8,121.2);
+            out;
+            """;
+
+            var content = new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                ["data"] = query
+            });
+
+            var response = await _httpClient.PostAsync("api/interpreter", content);
+
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadFromJsonAsync<OverpassResponse>();
+
+            if (result is null)
+            {
+                return [];
+            }
+
+            return result.Elements
+                .Select(element => new StationDto
+                {
+                    Name = element.Tags?.GetValueOrDefault("name") ?? "Unnamed station",
+                    Latitude = element.Lat,
+                    Longitude = element.Lon
+                })
+                .ToList();
         }
     }
 }
