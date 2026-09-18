@@ -1,14 +1,15 @@
-﻿@model IReadOnlyList<FuelPH.DTOs.FuelPriceDto>
+﻿@model IReadOnlyList<FuelPH.DTOs.StationDto>
 
 <h1>FuelPH</h1>
 
-@foreach (var price in Model)
+<p>Stations found: @Model.Count</p>
+
+@foreach (var station in Model)
 {
     <div>
-        <strong>@price.FuelType</strong>
-
+        <strong>@station.Name</strong>
         <span>
-            ₱@price.PricePerLiter
+            (@station.Latitude, @station.Longitude)
         </span>
     </div>
 }
