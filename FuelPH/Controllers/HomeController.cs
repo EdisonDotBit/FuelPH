@@ -2,14 +2,15 @@ using FuelPH.Models;
 using FuelPH.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using FuelPH.Services.IServices;
 
 namespace FuelPH.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly FuelPriceService _fuelPriceService;
+        private readonly IFuelPriceService _fuelPriceService;
 
-        public HomeController(FuelPriceService fuelPriceService)
+        public HomeController(IFuelPriceService fuelPriceService)
         {
             _fuelPriceService = fuelPriceService;
         }

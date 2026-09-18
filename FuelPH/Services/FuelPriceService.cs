@@ -1,5 +1,8 @@
 ﻿using FuelPH.DTOs;
 using FuelPH.Services.IServices;
+using FuelPH.API;
+using System.Text.Json;
+using System.Net.Http.Json;
 
 namespace FuelPH.Services
 {
@@ -19,15 +22,15 @@ namespace FuelPH.Services
             HttpResponseMessage response = await _httpClient.GetAsync("todos/1");
             response.EnsureSuccessStatusCode();
 
-            var json = await response.Content.ReadAsStringAsync();
-
-            Console.WriteLine(json);
+            var content = await response.Content.ReadFromJsonAsync<TodoResponse>();
 
             return new FuelPriceDto
             {
-                FuelType = "Diesel",
-                PricePerLiter = 57.20m
+                FuelType = content?.Title ?? "Diesel",
+                PricePerLiter = content?.Id ?? 0 
             };
+
+
         }
     }
 }
