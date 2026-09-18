@@ -1,13 +1,14 @@
-﻿@model FuelPH.DTOs.FuelPriceDto;
+﻿@model IReadOnlyList<FuelPH.DTOs.FuelPriceDto>
 
-@{
-    ViewData["Title"] = "Home Page";
+<h1>FuelPH</h1>
+
+@foreach (var price in Model)
+{
+    <div>
+        <strong>@price.FuelType</strong>
+
+        <span>
+            ₱@price.PricePerLiter
+        </span>
+    </div>
 }
-
-<div class="text-center">
-    <h1>FuelPH</h1>
-
-    <h2>@Model.FuelType</h2>
-
-    <p>₱@Model.PricePerLiter per liter</p>
-</div>
