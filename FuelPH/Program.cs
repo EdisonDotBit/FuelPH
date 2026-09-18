@@ -9,6 +9,13 @@ builder.Services.AddHttpClient<IFuelPriceService, FuelPriceService>(client =>
 {
     client.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/"); // Replace with the actual API base URL later
 });
+builder.Services.AddHttpClient<IStationService, StationService>(client =>
+{
+    client.BaseAddress = new Uri("https://overpass-api.de/");
+    client.DefaultRequestHeaders.UserAgent.ParseAdd(
+    "FuelPH/1.0");
+
+});
 
 var app = builder.Build();
 
