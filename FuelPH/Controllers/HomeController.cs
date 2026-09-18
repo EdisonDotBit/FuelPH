@@ -9,16 +9,19 @@ namespace FuelPH.Controllers
     public class HomeController : Controller
     {
         private readonly IFuelPriceService _fuelPriceService;
+        private readonly IStationService _stationService;
 
-        public HomeController(IFuelPriceService fuelPriceService)
+
+        public HomeController(IFuelPriceService fuelPriceService, IStationService stationService)
         {
             _fuelPriceService = fuelPriceService;
+            _stationService = stationService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var price = await _fuelPriceService.GetDieselPriceAsync();
-            return View(price);
+            var stations = await _stationService.GetStationsAsync();
+            return View(stations);
         }
 
         public IActionResult Privacy()
