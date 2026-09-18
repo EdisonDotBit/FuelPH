@@ -16,21 +16,21 @@ namespace FuelPH.Services
             _httpClient = httpClient;
         }   
 
-        public async Task<FuelPriceDto> GetDieselPrice()
+        public async Task<IReadOnlyList<FuelPriceDto>> GetDieselPriceAsync()
         {
-            // Example API call - replace with actual implementation
-            HttpResponseMessage response = await _httpClient.GetAsync("todos/1");
-            response.EnsureSuccessStatusCode();
+            var todos = await _httpClient.GetFromJsonAsync<List<TodoResponse>>("todos");
 
-            var content = await response.Content.ReadFromJsonAsync<TodoResponse>();
-
-            return new FuelPriceDto
+            if (todos is null)
             {
-                FuelType = content?.Title ?? "Diesel",
-                PricePerLiter = content?.Id ?? 0 
-            };
+                return [];
+            }
 
-
+            return todos.Take(3).Select(todo =>
+                new FuelPriceDto
+                {
+                    FuelType = todo.Title,
+                    PricePerLiter = todo.Id
+                }).ToList();
         }
     }
 }
