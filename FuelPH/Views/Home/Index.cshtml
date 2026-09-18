@@ -2,7 +2,15 @@
 
 <h1>FuelPH</h1>
 
-<p>Stations found: @Model.Count</p>
+<div id="map"></div>
+
+<style>
+    #map {
+        height: 600px;
+        width: 100%;
+    }
+</style>
+
 
 @foreach (var station in Model)
 {
@@ -12,4 +20,14 @@
             (@station.Latitude, @station.Longitude)
         </span>
     </div>
+}
+
+@section Scripts {
+    <script>
+        var map = L.map('map').setView([14.60, 121.03], 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+    </script>
 }
