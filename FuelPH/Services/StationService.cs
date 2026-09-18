@@ -18,8 +18,8 @@ namespace FuelPH.Services
         public async Task<IReadOnlyList<StationDto>> GetStationsAsync()
         {
             var query = """
-            [out:json];
-            node["amenity"="fuel"](14.4,120.9,14.8,121.2);
+            [out:json][timeout:25];
+            node["amenity"="fuel"](14.55,121.00,14.65,121.10);
             out;
             """;
 
