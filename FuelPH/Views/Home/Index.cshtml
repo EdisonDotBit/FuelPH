@@ -21,7 +21,8 @@
                             @station.Latitude, @station.Longitude
                         </p>
 
-                        <button class="btn btn-sm btn-primary">
+                        <button class="btn btn-sm btn-primary"
+                                onclick="focusStation(@station.Latitude, @station.Longitude)">
                             View on Map
                         </button>
                     </div>
@@ -74,6 +75,10 @@
         if (stationLocations.length > 0) {
             var bounds = L.latLngBounds(stationLocations);
             map.fitBounds(bounds);
+        }
+
+        function focusStation(latitude, longitude) {
+            map.setView([latitude, longitude], 17);
         }
     </script>
 }
