@@ -12,12 +12,11 @@ builder.Services.AddHttpClient<IFuelPriceService, FuelPriceService>(client =>
 builder.Services.AddHttpClient<IStationService, StationService>(client =>
 {
     client.BaseAddress = new Uri("https://overpass-api.de/");
-    client.DefaultRequestHeaders.UserAgent.ParseAdd(
-    "FuelPH/1.0");
-
+    client.DefaultRequestHeaders.UserAgent.ParseAdd("FuelPH/1.0");
+    client.Timeout = TimeSpan.FromMinutes(3);
 });
 
-var app = builder.Build();
+var app = builder.Build();  
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
