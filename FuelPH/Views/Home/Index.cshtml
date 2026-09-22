@@ -29,5 +29,20 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
+
+        
+
+        @foreach (var station in Model)
+        {
+                <text>
+                        L.marker([@station.Latitude, @station.Longitude])
+                            .addTo(map)
+                            .bindPopup(`
+                                <strong>@station.Name</strong><br>
+                                Latitude: @station.Latitude<br>
+                                Longitude: @station.Longitude
+                            `);
+                </text>
+        }
     </script>
 }
