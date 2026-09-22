@@ -24,25 +24,35 @@
 
 @section Scripts {
     <script>
-        var map = L.map('map').setView([14.60, 121.03], 12);
+        var map = L.map('map');
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        
+        var stationLocations = [];
 
         @foreach (var station in Model)
         {
                 <text>
-                        L.marker([@station.Latitude, @station.Longitude])
+                        var marker = L.marker([@station.Latitude, @station.Longitude])
                             .addTo(map)
                             .bindPopup(`
                                 <strong>@station.Name</strong><br>
                                 Latitude: @station.Latitude<br>
                                 Longitude: @station.Longitude
                             `);
+
+                        stationLocations.push([
+                            @station.Latitude,
+                            @station.Longitude
+                        ]);
                 </text>
+        }
+
+        if (stationLocations.length > 0) {
+            var bounds = L.latLngBounds(stationLocations);
+            map.fitBounds(bounds);
         }
     </script>
 }
