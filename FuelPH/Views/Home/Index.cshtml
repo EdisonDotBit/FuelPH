@@ -10,16 +10,20 @@
     <div class="col-md-4">
         <h4>Fuel Stations</h4>
 
-        <div class="station-list">
+       <div class="station-list">
             @foreach (var station in Model)
             {
                 <div class="card mb-2">
                     <div class="card-body">
                         <h5 class="card-title">@station.Name</h5>
 
-                        <p class="card-text">
+                        <p class="card-text text-muted">
                             @station.Latitude, @station.Longitude
                         </p>
+
+                        <button class="btn btn-sm btn-primary">
+                            View on Map
+                        </button>
                     </div>
                 </div>
             }
