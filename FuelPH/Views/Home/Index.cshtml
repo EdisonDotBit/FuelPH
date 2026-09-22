@@ -1,26 +1,43 @@
 ﻿@model IReadOnlyList<FuelPH.DTOs.StationDto>
 
-<h1>FuelPH</h1>
+<h1 class="mb-3">FuelPH</h1>
 
-<div id="map"></div>
+<div class="row">
+    <div class="col-md-8">
+        <div id="map"></div>
+    </div>
+
+    <div class="col-md-4">
+        <h4>Fuel Stations</h4>
+
+        <div class="station-list">
+            @foreach (var station in Model)
+            {
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h5 class="card-title">@station.Name</h5>
+
+                        <p class="card-text">
+                            @station.Latitude, @station.Longitude
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
 <style>
     #map {
         height: 600px;
         width: 100%;
     }
+
+    .station-list {
+        max-height: 600px;
+        overflow-y: auto;
+    }
 </style>
-
-
-@foreach (var station in Model)
-{
-    <div>
-        <strong>@station.Name</strong>
-        <span>
-            (@station.Latitude, @station.Longitude)
-        </span>
-    </div>
-}
 
 @section Scripts {
     <script>
