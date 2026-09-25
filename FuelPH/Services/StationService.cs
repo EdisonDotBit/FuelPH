@@ -2,6 +2,7 @@
 using FuelPH.API;
 using FuelPH.DTOs;
 using System.Net.Http.Json;
+using FuelPH.Models;
 
 
 namespace FuelPH.Services
@@ -15,11 +16,16 @@ namespace FuelPH.Services
             _httpClient = httpClient;
         }
 
-        public async Task<IReadOnlyList<StationDto>> GetStationsAsync()
+        public async Task<IReadOnlyList<StationDto>> GetStationsAsync(FuelRegion region)
         {
-            var query = """
-            [out:json][timeout:10];
-            node["amenity"="fuel"](14.60,121.00,14.65,121.05);
+            var query = $"""
+            [out:json][timeout:25];
+            node["amenity"="fuel"](
+                {region.South},
+                {region.West},
+                {region.North},
+                {region.East}
+            );
             out;
             """;
 

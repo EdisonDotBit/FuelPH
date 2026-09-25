@@ -20,7 +20,17 @@ namespace FuelPH.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var stations = await _stationService.GetStationsAsync();
+
+            var metroManila = new FuelRegion
+            {
+                Name = "Metro Manila",
+                South = 14.60,
+                West = 121.00,
+                North = 14.65,
+                East = 121.05
+            };
+
+            var stations = await _stationService.GetStationsAsync(metroManila);
             return View(stations);
         }
 
