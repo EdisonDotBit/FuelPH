@@ -10,12 +10,32 @@
     <div class="col-md-4">
         <h4>Fuel Stations</h4>
 
-       <div class="station-list">
+        <form method="get" class="mb-3">
+            <label for="region" class="form-label">Location</label>
+
+            <select id="region"
+                    name="region"
+                    class="form-select"
+                    onchange="this.form.submit()">
+
+                @foreach (var region in ViewBag.Regions)
+                {
+                    <option value="@region.Name"
+                            selected="@(region.Name == ViewBag.SelectedRegion)">
+                        @region.Name
+                    </option>
+                }
+            </select>
+        </form>
+
+        <div class="station-list">
             @foreach (var station in Model)
             {
                 <div class="card mb-2">
                     <div class="card-body">
-                        <h5 class="card-title">@station.Name</h5>
+                        <h5 class="card-title">
+                            @station.Name
+                        </h5>
 
                         <p class="card-text text-muted">
                             @station.Latitude, @station.Longitude
@@ -58,30 +78,32 @@
         @foreach (var station in Model)
         {
                 <text>
-                        var marker = L.marker([@station.Latitude, @station.Longitude])
-                            .addTo(map)
-                            .bindPopup(`
-                                <strong>@station.Name</strong><br>
-                                Latitude: @station.Latitude<br>
-                                Longitude: @station.Longitude
-                            `);
-                        stationMarkers.push(marker);
+                        stationMarkers.push(
+                            L.marker([@station.Latitude, @station.Longitude])
+                                .addTo(map)
+                                .bindPopup(`
+                                    <strong>@station.Name</strong><br>
+                                    Latitude: @station.Latitude<br>
+                                    Longitude: @station.Longitude
+                                `)
+                        );
+
                         stationLocations.push([
                             @station.Latitude,
                             @station.Longitude
-                        ]);                     
+                        ]);
                 </text>
         }
 
         if (stationLocations.length > 0) {
-            var bounds = L.latLngBounds(stationLocations);
+            let bounds = L.latLngBounds(stationLocations);
             map.fitBounds(bounds);
         }
 
         function focusStation(latitude, longitude) {
             map.setView([latitude, longitude], 17);
 
-            var marker = stationMarkers.find(function (marker) {
+            let marker = stationMarkers.find(function (marker) {
                 let position = marker.getLatLng();
 
                 return position.lat === latitude &&
