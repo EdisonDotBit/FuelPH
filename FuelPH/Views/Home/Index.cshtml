@@ -46,13 +46,14 @@
 
 @section Scripts {
     <script>
-        var map = L.map('map');
+        let map = L.map('map');
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        var stationLocations = [];
+        let stationLocations = [];
+        let stationMarkers = [];
 
         @foreach (var station in Model)
         {
@@ -64,11 +65,13 @@
                                 Latitude: @station.Latitude<br>
                                 Longitude: @station.Longitude
                             `);
-
+                        stationMarkers.push(marker);
                         stationLocations.push([
                             @station.Latitude,
                             @station.Longitude
                         ]);
+
+                        
                 </text>
         }
 
@@ -79,6 +82,17 @@
 
         function focusStation(latitude, longitude) {
             map.setView([latitude, longitude], 17);
+
+            var marker = stationMarkers.find(function (marker) {
+                let position = marker.getLatLng();
+
+                return position.lat === latitude &&
+                       position.lng === longitude;
+            });
+
+            if (marker) {
+                marker.openPopup();
+            }
         }
     </script>
 }
