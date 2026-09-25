@@ -10,27 +10,29 @@ namespace FuelPH.Controllers
     {
         private readonly IFuelPriceService _fuelPriceService;
         private readonly IStationService _stationService;
+        private readonly RegionService _regionService;
 
-
-        public HomeController(IFuelPriceService fuelPriceService, IStationService stationService)
+        public HomeController(IFuelPriceService fuelPriceService, IStationService stationService, RegionService regionService)
         {
             _fuelPriceService = fuelPriceService;
             _stationService = stationService;
+            _regionService = regionService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? region)
         {
+            var regions = _regionService.GetRegions();
 
-            var metroManila = new FuelRegion
-            {
-                Name = "Metro Manila",
-                South = 14.60,
-                West = 121.00,
-                North = 14.65,
-                East = 121.05
-            };
+            var selectedRegion = regions.FirstOrDefault(x =>
+                x.Name.Equals(region, StringComparison.OrdinalIgnoreCase));
 
-            var stations = await _stationService.GetStationsAsync(metroManila);
+            selectedRegion ??= regions.First(x => x.Name == "Metro Manila");
+
+            var stations = await _stationService.GetStationsAsync(selectedRegion);
+
+            ViewBag.Regions = regions;
+            ViewBag.SelectedRegion = selectedRegion.Name;
+
             return View(stations);
         }
 
